@@ -1,0 +1,74 @@
+/* Base card style */
+.custom-card {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(173, 216, 230, 0.5), rgba(224, 255, 255, 0.3));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;/* 👈 ADD this line */
+    background-color: lightblue;
+  }
+  
+  .cancel-link {
+    text-decoration: none !important; /* 🔥 Remove underline permanently */
+    cursor: pointer;
+  }
+  
+  .custom-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Specific initial gradients */
+  .dispatch-card {
+    background: linear-gradient(135deg, rgba(173, 216, 230, 0.4), rgba(224, 255, 255, 0.3));
+  }
+  
+  .pending-card {
+    background: linear-gradient(135deg, rgba(255, 236, 179, 0.4), rgba(255, 249, 196, 0.3));
+  }
+  
+  .cancel-card {
+    background: linear-gradient(135deg, rgba(255, 182, 193, 0.4), rgba(255, 228, 225, 0.3));
+  }
+  
+  .hover-overlay {
+  background: rgba(0, 0, 0, 0.3); /* black transparent */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+.custom-card:hover .hover-overlay {
+  opacity: 1;
+}
+
+  
+  /* Text above overlay */
+  .card-body {
+    position: relative;
+    z-index: 2;
+  }
+  .cancel-link {
+    text-decoration: none !important;
+    cursor: pointer;
+  }
+  .cancel-link:hover {
+    text-decoration: none;
+  }
+  /* Sticky header fix */
+  ::ng-deep .sticky-th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  

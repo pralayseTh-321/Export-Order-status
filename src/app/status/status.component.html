@@ -1,0 +1,66 @@
+<div >
+  <div class="d-flex gap-3 align-items-end">
+    
+    <!-- Customer Dropdown -->
+    <div class="position-relative" style="width: 220px;">
+      <label class="form-label fw-semibold">Customer Code</label>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Select customer..."
+        [(ngModel)]="searchText"
+        (input)="filterDropdown()"
+        (focus)="isDropdownOpen = true"
+      />
+      <div *ngIf="isDropdownOpen && filteredCustomerCodes.length > 0" class="dropdown-menu show w-100" style="max-height: 200px; overflow-y: auto;">
+        <button class="dropdown-item" *ngFor="let code of filteredCustomerCodes" (click)="selectCustomer(code)">
+          {{ code }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Order Number Field -->
+    <div>
+      <label class="form-label fw-semibold">Order Number</label>
+      <input type="text" class="form-control" [(ngModel)]="orderNumber" placeholder="Enter order number" />
+    </div>
+
+    <!-- Search Button -->
+    <div>
+      <button class="btn btn-primary" (click)="onSearch()">Search</button>
+    </div>
+  </div>
+
+  <!-- Error Alert -->
+  <div *ngIf="showError" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Search Result Display -->
+ <div *ngIf="searchResult" class="card mt-4 p-3 border-0 shadow-sm" style="background-color: #f8f9fa;">
+  <h5 class="mb-3 border-bottom pb-2 text-primary">🔍 Order Information</h5>
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <strong>Order No:</strong> {{ searchResult.order_number }}
+    </div>
+    <div class="col-md-6">
+      <strong>OCI No:</strong> {{ searchResult.oci_no || 'N/A' }}
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-6">
+      <strong>Status:</strong> {{ searchResult.status_desc }}
+    </div>
+    <div class="col-md-6">
+      <strong>Entry Date:</strong> {{ searchResult.entry_date }}
+    </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-md-6">
+      <strong>Status Code:</strong>
+      <span class="badge bg-secondary ms-1">{{ searchResult.status_code }}</span>
+    </div>
+  </div> -->
+</div>
+
+</div>

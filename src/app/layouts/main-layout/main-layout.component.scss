@@ -1,0 +1,72 @@
+.sidenav {
+    width: 230px; /* was 250px, now tighter */
+    transition: all 0.3s ease;
+    height: 100vh;
+    overflow-x: hidden;
+  }
+  
+  .sidenav.collapsed {
+    width: 60px; /* was 70px, now a bit tighter */
+  }
+  
+  .sidenav .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: #333;
+  }
+  
+  .sidenav .nav-link:hover {
+    background-color: #36454F;
+  }
+  .bg-light {
+    --bs-bg-opacity: 1;
+    background-color: rgb(162 163 163) !important;
+}
+  .sidenav .nav-link i {
+    font-size: 1.5rem;
+  }
+  .profile-popup {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: white;
+    padding: 8px 16px;
+    border: 1px solid #ddd;
+    min-width: 150px;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .icon-button {
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .icon-button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+  nav.navbar {
+    height: 56px; /* Reduced height */
+    min-height: 56px;
+    padding: 0 16px;
+  }
+  .active-link {
+    background-color: #e9ecef; /* Light grey */
+    border-radius: 8px;
+    font-weight: bold;
+    color: #212529 !important;
+    transition: background-color 0.3s ease;
+  }
+  
+  .nav-link {
+    transition: background-color 0.3s ease;
+  }
+  

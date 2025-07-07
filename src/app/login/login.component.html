@@ -1,0 +1,36 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card p-4 shadow" style="width: 350px;">
+    <h3 class="mb-4 text-center">Login</h3>
+    <form (ngSubmit)="onLogin()">
+      <div class="form-group mb-3">
+        <label>Username</label>
+        <input type="text" class="form-control" [(ngModel)]="username" name="username" required>
+      </div>
+
+      <div class="form-group mb-4 position-relative">
+        <label>Password</label>
+        <div class="input-group">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            class="form-control pe-5"
+            [(ngModel)]="password"
+            name="password"
+            required
+          />
+          <button
+            type="button"
+            class="btn position-absolute end-0 top-50 translate-middle-y me-2 p-0 border-0 bg-transparent"
+            style="z-index: 5;"
+            (click)="togglePasswordVisibility()"
+          >
+            <i class="bi fs-5" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+          </button>
+        </div>
+      </div>
+      
+
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <div *ngIf="loginError" class="text-danger mt-2 text-center">Something went wrong!</div>
+    </form>
+  </div>
+</div>
