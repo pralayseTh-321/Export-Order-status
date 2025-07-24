@@ -1,0 +1,36 @@
+<div class="d-flex justify-content-start align-items-end gap-3 mb-4 flex-wrap">
+  <!-- 📅 From Date -->
+  <div>
+    <label class="form-label fw-semibold">From</label>
+    <input
+      type="date"
+      class="form-control"
+      [(ngModel)]="startDate"
+      [max]="today"
+    />
+    <div *ngIf="showFromDateError" class="text-danger small mt-1">
+      From date is required.
+    </div>
+  </div>
+
+  <!-- 📅 To Date -->
+  <div>
+    <label class="form-label fw-semibold">To</label>
+    <input
+      type="date"
+      class="form-control"
+      [(ngModel)]="endDate"
+      [max]="today"
+    />
+    <div *ngIf="showToDateError" class="text-danger small mt-1">
+      To date is required.
+    </div>
+  </div>
+
+  <!-- 🔍 Search Button -->
+  <div>
+    <button class="btn btn-primary mt-4" (click)="searchData()">
+      Search
+    </button>
+  </div>
+</div>

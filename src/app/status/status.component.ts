@@ -16,6 +16,7 @@ export class StatusComponent implements OnInit {
   searchResult: any = null;
   showError = false;
   errorMessage = '';
+isLoading = false;
 
   constructor(private authService: AuthService) {}
 
@@ -57,7 +58,7 @@ export class StatusComponent implements OnInit {
       this.errorMessage = 'Please select customer and enter order number.';
       return;
     }
-
+this.isLoading = true;
     const payload = {
       cust_code: this.selectedCustomerCode,
       order_number: this.orderNumber
@@ -72,7 +73,10 @@ export class StatusComponent implements OnInit {
         this.searchResult = null;
         this.showError = true;
         this.errorMessage = 'Order not found or API error.';
-      }
+      },
+       complete: () => {
+      this.isLoading = false; // Stop loader
+    }
     });
   }
 

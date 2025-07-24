@@ -10,14 +10,20 @@
   }
   
   .sidenav .nav-link {
-    display: flex;
+    // display: flex;
     align-items: center;
     padding: 10px;
     color: #333;
   }
-  
+
+  .sidenav .nav-item {
+  margin-bottom: 5px; 
+}
+
   .sidenav .nav-link:hover {
-    background-color: #36454F;
+    background-color: #bad5e8;
+    border-radius: 12px;
+    gap: 50px;
   }
   .bg-light {
     --bs-bg-opacity: 1;

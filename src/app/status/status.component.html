@@ -26,9 +26,16 @@
     </div>
 
     <!-- Search Button -->
-    <div>
-      <button class="btn btn-primary" (click)="onSearch()">Search</button>
+    <!-- Search Button -->
+<div>
+  <button class="btn btn-primary d-flex align-items-center gap-2" (click)="onSearch()" [disabled]="isLoading">
+    <span *ngIf="!isLoading">Search</span>
+    <div *ngIf="isLoading" class="spinner-border spinner-border-sm text-light" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
+  </button>
+</div>
+
   </div>
 
   <!-- Error Alert -->

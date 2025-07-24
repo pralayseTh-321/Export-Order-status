@@ -1,36 +1,72 @@
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card p-4 shadow" style="width: 350px;">
-    <h3 class="mb-4 text-center">Login</h3>
-    <form (ngSubmit)="onLogin()">
-      <div class="form-group mb-3">
-        <label>Username</label>
-        <input type="text" class="form-control" [(ngModel)]="username" name="username" required>
-      </div>
+<div class="container-fluid p-0 m-0 overflow-hidden position-relative">
 
-      <div class="form-group mb-4 position-relative">
-        <label>Password</label>
-        <div class="input-group">
-          <input
-            [type]="showPassword ? 'text' : 'password'"
-            class="form-control pe-5"
-            [(ngModel)]="password"
-            name="password"
-            required
-          />
-          <button
-            type="button"
-            class="btn position-absolute end-0 top-50 translate-middle-y me-2 p-0 border-0 bg-transparent"
-            style="z-index: 5;"
-            (click)="togglePasswordVisibility()"
-          >
-            <i class="bi fs-5" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
-          </button>
+  <!-- Logo at Top Right -->
+  <img src="assets/VRX Logo.png"
+       alt="Logo"
+       class="position-absolute"
+       style="top: 20px; right: 20px; height: 90px; z-index: 10;" />
+
+  <div class="row g-0 min-vh-100">
+
+    <!-- Left: Image Section (visible on all screens now) -->
+    <div class="col-lg-6 col-md-6 p-0" >
+      <div class="position-relative h-100 w-100" style="margin-top: -15px;">
+
+        <!-- Background Image -->
+        <img src="assets/man-image.jpg"
+             alt="Login Visual"
+             class="w-100 h-100"
+             style="object-fit: cover;" />
+
+        <!-- Top-center overlay text -->
+        <div class="position-absolute top-0 start-50 translate-middle-x text-center" style="margin-top: 15px;">
+          <h5 style="color: #007bff; font-weight: 500; font-size: 1.55rem; margin-bottom: 0.2rem;">
+            VRx Export Order's Enquiry
+          </h5>
+          <p class="mb-0" style="color: #444; font-size: 0.75rem;">
+            A smarter and convenient way to monitor orders 
+          </p>
         </div>
-      </div>
-      
 
-      <button type="submit" class="btn btn-primary w-100">Login</button>
-      <div *ngIf="loginError" class="text-danger mt-2 text-center">Something went wrong!</div>
-    </form>
+      </div>
+    </div>
+
+    <!-- Right: Login Form Section -->
+    <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-center bg-white">
+      <div class="p-4" style="width: 100%; max-width: 400px; margin-top: -80px;">
+        <h3 class="mb-4 text-center">Login</h3>
+        <form (ngSubmit)="onLogin()">
+          <div class="form-group mb-3">
+            <label>Username</label>
+            <input type="text" class="form-control" [(ngModel)]="username" name="username" required>
+          </div>
+
+          <div class="form-group mb-4 position-relative">
+            <label>Password</label>
+            <div class="input-group">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                class="form-control pe-5"
+                [(ngModel)]="password"
+                name="password"
+                required
+              />
+              <button
+                type="button"
+                class="btn position-absolute end-0 top-50 translate-middle-y me-2 p-0 border-0 bg-transparent"
+                style="z-index: 5;"
+                (click)="togglePasswordVisibility()"
+              >
+                <i class="bi fs-5" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+              </button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100">Login</button>
+          <div *ngIf="loginError" class="text-danger mt-2 text-center">Something went wrong!</div>
+        </form>
+      </div>
+    </div>
+
   </div>
 </div>

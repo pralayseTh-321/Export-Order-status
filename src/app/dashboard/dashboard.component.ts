@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,13 +31,14 @@ export class DashboardComponent implements OnInit {
   nonReflectedRawData: any[] = [];
   uniqueEntryDates: string[] = [];
   selectedEntryDate: string = 'ALL';
+ downloadingXmlRows = new Set<string>();
   // Optional: Map known status codes to badge styles
   statusBadgeMap: { [code: string]: string } = {
     '0': 'bg-secondary text-white',         // General pending
-    '1': 'bg-warning text-dark',            // Waiting
+    '1': 'bg-dark text-white',            // Waiting
     '2': 'bg-info text-dark',               // In progress
     '3': 'bg-primary text-white',           // Under review
-    '4': 'bg-dark text-white',              // Hold / On hold
+    '4': 'bg-warning text-dark',              // Hold / On hold
     '5': 'bg-light text-dark',              // Not started / unknown
     '6': 'bg-success text-white',           // Completed / approved
     '7': 'bg-warning text-dark',            // Batch processing / queued
@@ -57,15 +59,13 @@ export class DashboardComponent implements OnInit {
   loadCustomerList(): void {
     const userDetails = this.authService.getStoredUserDetails();
     if (!userDetails) return;
-
     this.authService.getCustomerList().subscribe((response: any[]) => {
       const filtered = response.filter(item => {
         const code = item.cust_code?.toUpperCase() || '';
         if (code.startsWith('EX') && userDetails.india === '0') return false;
         if (code.startsWith('CAN') && userDetails.canada === '0') return false;
         if (code.startsWith('AMR') && userDetails.usa === '0') return false;
-        // if (code.startsWith('DB') && userDetails.dubai === '0') return false;
-
+        if (code.startsWith('DB') && userDetails.dubai === '0') return false;
         return true;
       });
       this.dropdownItems = filtered.map(item => item.cust_code);
@@ -179,6 +179,88 @@ export class DashboardComponent implements OnInit {
       }));
   }
 }
+
+downloadCSV(): void {
+  if (!this.sampleOrderData || this.sampleOrderData.length === 0) {
+    alert("No data available to export.");
+    return;
+  }
+
+  const headers = ['Order No', 'Status Description', 'Entry Date'];
+  const rows = this.sampleOrderData.map(order =>
+    [order.orderNo, order.statusDesc, order.entryDate]
+  );
+
+  const csvContent = [headers, ...rows]
+    .map(e => e.map(val => `"${(val ?? '').toString().replace(/"/g, '""')}"`).join(','))
+    .join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", "non_reflected_orders.csv");
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+ downloadXmlRow(order: {
+    orderNo: string;
+    statusCode: string;
+    statusDesc: string;
+    entryDate: string;
+  }) {
+    const key = order.orderNo;
+    const payload = {
+      Customer_code: this.selectedCustomerCode,
+      OCI_NO: '',
+      POHD_SOURCE_REF: key
+    };
+
+    // Mark this row as loading
+    this.downloadingXmlRows.add(key);
+
+    this.authService.getFilefinderInfo(payload).pipe(
+      finalize(() => {
+        // Remove the loading flag when done (success or error)
+        this.downloadingXmlRows.delete(key);
+      })
+    ).subscribe({
+      next: (res) => {
+        let info: { File_path: string; POPR_FILE_NAME: string };
+        if (typeof res === 'string') {
+          try {
+            info = JSON.parse(res);
+          } catch {
+            return this.showValidationAlert('Invalid JSON from filefinder API');
+          }
+        } else {
+          info = res;
+        }
+
+        const filename = info.POPR_FILE_NAME;
+        if (!filename) {
+          return this.showValidationAlert('No file name returned by server.');
+        }
+
+        const blobUrl =
+          'https://gkbftpdiag289.blob.core.windows.net/filefinderapp/' +
+          filename;
+
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      },
+      error: () => this.showValidationAlert('Failed to fetch XML location.')
+    });
+  }
+
 
 
   logout(): void {

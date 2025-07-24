@@ -7,18 +7,36 @@ import { Observable, of, map, catchError } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://visionrx.azurewebsites.net/CSOrderingDashboard/api/CSDashboard';
+  private baseUrl = 'https://visionrx.azurewebsites.net/CSOrderingDashboard/api/CSDashboard';
   private userDetails: any = null;
-  dashboardDataUrl = 'http://visionrx.azurewebsites.net/CSOrderingDashboard/api/CSDashboard/Dashboard';
-
+  dashboardDataUrl = 'https://visionrx.azurewebsites.net/CSOrderingDashboard/api/CSDashboard/Dashboard';
+ private filefinderUrl = 'https://vrxfilefinder.azurewebsites.net/Filefinder/';
  
   private headers = new HttpHeaders({
     'Authorization': 'Basic VlJYQ1NEQkFQUDpWUlgoNWQ4QHBw',
     'Content-Type': 'application/json'
   });
 
-  constructor(private http: HttpClient, private router: Router) {}
+    private headerss = new HttpHeaders({
+    'Authorization': 'Basic YWRtaW46cGFzc3dvcmQ=',
+    'Content-Type': 'application/json'
+  });
 
+  constructor(private http: HttpClient, private router: Router) {}
+  
+    getFilefinderInfo(payload: {
+    Customer_code: string;
+    OCI_NO: string;
+    POHD_SOURCE_REF: string;
+  }): Observable<{ File_path: string; POPR_FILE_NAME: string }> {
+    return this.http.post<{ File_path: string; POPR_FILE_NAME: string }>(
+      this.filefinderUrl,
+      payload,
+      {responseType: 'json' as 'json'}
+      
+     
+    );
+  }
  // auth.service.ts
 login(username: string, password: string): Observable<boolean> {
   const payload = { userid: username, userpassword: password };
@@ -86,5 +104,8 @@ login(username: string, password: string): Observable<boolean> {
   const url = `${this.baseUrl}/SearchOrder`;
   return this.http.post<any>(url, payload, { headers: this.headers });
 }
+// getCustomerCodesByDateRange(payload: { startDate: string; endDate: string }) {
+//   return this.http.post<any[]>('http://localhost:3000/get_customer_codes_by_date_range', payload, {headers: this.headerss});
+// }
 
 }

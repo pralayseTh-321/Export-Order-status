@@ -22,6 +22,15 @@
                 <span *ngIf="isExpanded" class="ms-2">Search Order</span>
               </a>
             </li>
+              <li class="nav-item">
+              <a class="nav-link"
+                 routerLink="/allcust"
+                 routerLinkActive="active-link"
+                 [routerLinkActiveOptions]="{ exact: true }">
+               <i class="bi bi-people"></i>
+                <span *ngIf="isExpanded" class="ms-2">All Customer</span>
+              </a>
+            </li>
           </ul>          
         </div>
       

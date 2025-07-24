@@ -10,13 +10,15 @@ import { ServiceWorkerModule } from '@angular/service-worker'; // 🛠️ ADD TH
 import { environment } from 'src/environments/environment';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { StatusComponent } from './status/status.component';
+import { CustListDetailsComponent } from './cust-list-details/cust-list-details.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
     MainLayoutComponent,
-    StatusComponent
+    StatusComponent,
+    CustListDetailsComponent
   ],
   imports: [
     BrowserModule,

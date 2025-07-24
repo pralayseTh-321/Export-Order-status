@@ -99,19 +99,34 @@
 <div *ngIf="showAccordion" class="mt-4">
   <div class="accordion" id="orderAccordion">
     <div class="accordion-item">
-      <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button d-flex align-items-center gap-2" [ngClass]="{ 'collapsed': !accordionExpanded }"
-          type="button" (click)="toggleExpandAccordion()" [attr.aria-expanded]="accordionExpanded">
-          <span class="fw-bold">Order Status</span>
-          <span *ngIf="sampleOrderData.length > 0" class="badge bg-primary">
-            {{ sampleOrderData.length }}
-          </span>
-        </button>
-      </h2>
+      <h2 class="accordion-header bg-light" id="headingOne">
+  <div class="d-flex align-items-center justify-content-between w-100">
+    <!-- Accordion Toggle Button -->
+    <button class="accordion-button collapsed flex-grow-1 d-flex align-items-center gap-2"
+            type="button"
+            (click)="toggleExpandAccordion()"
+            [attr.aria-expanded]="accordionExpanded">
+
+      <!-- Left content -->
+      <span class="fw-bold">Order Status</span>
+      <span *ngIf="sampleOrderData.length > 0" class="badge bg-primary">
+        {{ sampleOrderData.length }}
+      </span>
+    </button>
+
+    <!-- Download Icon Button (Beside arrow) -->
+    <button class="btn btn-sm btn-outline-primary ms-2 me-3"
+            (click)="downloadCSV(); $event.stopPropagation()"
+            title="Download CSV">
+      <i class="bi bi-filetype-csv"></i>
+    </button>
+  </div>
+</h2>
+
 
       <div class="accordion-collapse" [ngClass]="{ 'collapse': true, 'show': accordionExpanded }">
         <div class="accordion-body p-0">
-          <div style="max-height: 250px; overflow-y: auto;">
+          <div style="max-height: 350px; overflow-y: auto;">
             <table class="table table-bordered table-hover m-0">
               <thead>
                 <tr>
@@ -127,8 +142,9 @@
                     </div>
                   </th>
 
-                  <th class="sticky-th bg-white">Status</th>
-                  <th class="sticky-th bg-white">Entry Date</th> <!-- New Column -->
+                  <th class="sticky-th">Status</th>
+                  <th class="sticky-th">Entry Date</th> <!-- New Column -->
+                    <th class="sticky-th">XML</th>
                 </tr>
               </thead>
 
@@ -141,6 +157,25 @@
                     </span>
                   </td>
                   <td>{{ order.entryDate }}</td> <!-- New Cell -->
+                  <td class="text-start"> <!-- ← left‑aligned now -->
+                    <div class="d-flex align-items-center gap-2">
+                      <!-- XML Download -->
+                      <button class="btn btn-sm btn-outline-primary"
+                        (click)="downloadXmlRow(order); $event.stopPropagation()"
+                        [disabled]="downloadingXmlRows.has(order.orderNo)" title="Download XML">
+                        <ng-container *ngIf="!downloadingXmlRows.has(order.orderNo); else spinning">
+                          <i class="bi bi-filetype-xml"></i>
+                        </ng-container>
+                        <ng-template #spinning>
+                          <div class="spinner-border spinner-border-sm text-secondary" role="status">
+                            <span class="visually-hidden">Loading…</span>
+                          </div>
+                        </ng-template>
+                      </button>
+
+                    
+                    </div>
+                  </td>
                 </tr>
               </tbody>
             </table>
