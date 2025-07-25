@@ -56,36 +56,80 @@ export class DashboardComponent implements OnInit {
     this.loadCustomerList();
   }
 
-  loadCustomerList(): void {
-    const userDetails = this.authService.getStoredUserDetails();
-    if (!userDetails) return;
-    this.authService.getCustomerList().subscribe((response: any[]) => {
-      const filtered = response.filter(item => {
-        const code = item.cust_code?.toUpperCase() || '';
-        if (code.startsWith('EX') && userDetails.india === '0') return false;
-        if (code.startsWith('CAN') && userDetails.canada === '0') return false;
-        if (code.startsWith('AMR') && userDetails.usa === '0') return false;
-        if (code.startsWith('DB') && userDetails.dubai === '0') return false;
-        return true;
-      });
-      this.dropdownItems = filtered.map(item => item.cust_code);
-      this.filteredItems = [...this.dropdownItems];
+loadCustomerList(): void {
+  const userDetails = this.authService.getStoredUserDetails();
+  if (!userDetails) return;
+
+  this.authService.getCustomerList().subscribe((response: any[]) => {
+    let filtered = response.filter(item => {
+      const code = item.cust_code?.toUpperCase() || '';
+
+      // Region-based filtering
+      if (code.startsWith('EX') && userDetails.india === '0') return false;
+      if (code.startsWith('CAN') && userDetails.canada === '0') return false;
+      if (code.startsWith('AMR') && userDetails.usa === '0') return false;
+      if (code.startsWith('DB') && userDetails.dubai === '0') return false;
+
+      return true;
     });
-  }
+
+    // Special rule for user 'ganesh'
+    if (userDetails.userid === 'ganesh' && userDetails.india === '1') {
+      const allowedGaneshCodes = ['EX/0000376', 'EX/0000203'];
+      filtered = response.filter(item =>
+        allowedGaneshCodes.includes(item.cust_code?.toUpperCase())
+      );
+    }
+
+    // Special rule for user 'ranjit'
+    if (userDetails.userid === 'ranjit' && userDetails.india === '1' && userDetails.usa === '1') {
+      const allowedRanjitEXCodes = ['EX/0000185'];
+      filtered = response.filter(item => {
+        const code = item.cust_code?.toUpperCase() || '';
+        return code.startsWith('AMR') || allowedRanjitEXCodes.includes(code);
+      });
+    }
+
+    this.dropdownItems = filtered.map(item => item.cust_code);
+    this.filteredItems = [...this.dropdownItems]; // for dropdown binding
+  });
+}
+
 
   filterDropdown() {
     const text = this.searchText.toLowerCase();
     this.filteredItems = this.dropdownItems.filter(item => item.toLowerCase().includes(text));
   }
+onInputChange(): void {
+  this.filterDropdown();
 
-  selectItem(item: string) {
-    this.searchText = item;
-    this.selectedCustomerCode = item;
-    this.isDropdownOpen = false;
-    this.dateRangeInput = '';
-    this.startDate = '';
-    this.endDate = '';
+  // If search text is empty, reopen full dropdown list
+  if (this.searchText.trim() === '') {
+    this.filteredItems = [...this.dropdownItems];
+    this.isDropdownOpen = true;
   }
+}
+
+selectItem(item: string) {
+  this.searchText = item;
+  this.selectedCustomerCode = item;
+  this.isDropdownOpen = false;
+
+  // Reset date fields
+  this.dateRangeInput = '';
+  this.startDate = '';
+  this.endDate = '';
+
+  // Clear dashboard and accordion view
+  this.displayData = false;
+  this.showAccordion = false;
+  this.accordionExpanded = false;
+  this.sampleOrderData = [];
+  this.nonReflectedRawData = [];
+  this.uniqueEntryDates = [];
+  this.selectedEntryDate = 'ALL';
+}
+
 
   showValidationAlert(message: string) {
     this.alertMessage = message;

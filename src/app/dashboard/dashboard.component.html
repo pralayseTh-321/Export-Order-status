@@ -10,8 +10,11 @@
   <!-- Searchable Dropdown -->
   <div class="position-relative" style="width: 220px;">
     <label class="form-label fw-semibold">Customer</label>
-    <input type="text" class="form-control" placeholder="Select customer.." [(ngModel)]="searchText"
-      (input)="filterDropdown()" (focus)="isDropdownOpen = true" />
+   <input type="text" class="form-control" placeholder="Select customer.."
+  [(ngModel)]="searchText"
+  (input)="onInputChange()"
+  (focus)="isDropdownOpen = true" />
+
     <div *ngIf="isDropdownOpen && filteredItems.length > 0" class="dropdown-menu show w-100"
       style="max-height: 200px; overflow-y: auto;">
       <button class="dropdown-item" *ngFor="let item of filteredItems" (click)="selectItem(item)">
