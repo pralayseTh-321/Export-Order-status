@@ -147,7 +147,7 @@
 
                   <th class="sticky-th">Status</th>
                   <th class="sticky-th">Entry Date</th> <!-- New Column -->
-                    <th class="sticky-th">XML</th>
+                    <!-- <th class="sticky-th">XML</th> -->
                 </tr>
               </thead>
 
@@ -160,9 +160,9 @@
                     </span>
                   </td>
                   <td>{{ order.entryDate }}</td> <!-- New Cell -->
-                  <td class="text-start"> <!-- ← left‑aligned now -->
+                  <!-- <td class="text-start"> 
                     <div class="d-flex align-items-center gap-2">
-                      <!-- XML Download -->
+                      
                       <button class="btn btn-sm btn-outline-primary"
                         (click)="downloadXmlRow(order); $event.stopPropagation()"
                         [disabled]="downloadingXmlRows.has(order.orderNo)" title="Download XML">
@@ -178,7 +178,7 @@
 
                     
                     </div>
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </table>

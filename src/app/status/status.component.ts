@@ -16,7 +16,7 @@ export class StatusComponent implements OnInit {
   searchResult: any = null;
   showError = false;
   errorMessage = '';
-isLoading = false;
+  isLoading = false;
 
   constructor(private authService: AuthService) {}
 
@@ -24,20 +24,52 @@ isLoading = false;
     this.loadCustomerList();
   }
 
-  loadCustomerList() {
-    const userDetails = this.authService.getStoredUserDetails();
-    this.authService.getCustomerList().subscribe(customers => {
-      const filtered = customers.filter(item => {
+ loadCustomerList(): void {
+  const userDetails = this.authService.getStoredUserDetails();
+  if (!userDetails) return;
+
+  this.authService.getCustomerList().subscribe((response: any[]) => {
+    let filtered = [];
+
+    // If user is admin, show all codes without filtering
+    if (userDetails.userid === 'admin') {
+      filtered = response;
+    } else {
+      filtered = response.filter(item => {
         const code = item.cust_code?.toUpperCase() || '';
+
+        // Region-based filtering
         if (code.startsWith('EX') && userDetails.india === '0') return false;
         if (code.startsWith('CAN') && userDetails.canada === '0') return false;
         if (code.startsWith('AMR') && userDetails.usa === '0') return false;
+        if (code.startsWith('DB') && userDetails.dubai === '0') return false;
+
         return true;
       });
-      this.customerCodes = filtered.map(item => item.cust_code);
-      this.filteredCustomerCodes = [...this.customerCodes];
-    });
-  }
+
+      // Special rule for user 'ganesh'
+      if (userDetails.userid === 'ganesh' && userDetails.india === '1') {
+        const allowedGaneshCodes = ['EX/0000376', 'EX/0000203'];
+        filtered = response.filter(item =>
+          allowedGaneshCodes.includes(item.cust_code?.toUpperCase())
+        );
+      }
+
+      // Special rule for user 'ranjit'
+      if (userDetails.userid === 'ranjit' && userDetails.india === '1' && userDetails.usa === '1') {
+        const allowedRanjitEXCodes = ['EX/0000185'];
+        filtered = response.filter(item => {
+          const code = item.cust_code?.toUpperCase() || '';
+          return code.startsWith('AMR') || allowedRanjitEXCodes.includes(code);
+        });
+      }
+    }
+
+    this.customerCodes = filtered.map(item => item.cust_code);
+    this.filteredCustomerCodes = [...this.customerCodes];
+  });
+}
+
 
   filterDropdown() {
     const lowerText = this.searchText.toLowerCase();
@@ -58,7 +90,9 @@ isLoading = false;
       this.errorMessage = 'Please select customer and enter order number.';
       return;
     }
-this.isLoading = true;
+
+    this.isLoading = true;
+
     const payload = {
       cust_code: this.selectedCustomerCode,
       order_number: this.orderNumber
@@ -74,9 +108,9 @@ this.isLoading = true;
         this.showError = true;
         this.errorMessage = 'Order not found or API error.';
       },
-       complete: () => {
-      this.isLoading = false; // Stop loader
-    }
+      complete: () => {
+        this.isLoading = false;
+      }
     });
   }
 

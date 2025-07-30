@@ -1,0 +1,36 @@
+.sticky-header th {
+  position: sticky;
+  top: -1px;
+  background-color: #f8f9fa;
+  z-index: 10;
+  text-align: left;
+}
+/* Fullscreen loader overlay */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(33, 37, 41, 0.6); // Bootstrap dark with transparency
+  z-index: 1050;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
+
+.loader-spinner {
+  width: 4rem;
+  height: 4rem;
+}
+
+/* Sortable column hover & cursor */
+.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.sortable:hover {
+  text-decoration: underline;
+}

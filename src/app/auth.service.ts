@@ -107,5 +107,8 @@ login(username: string, password: string): Observable<boolean> {
 // getCustomerCodesByDateRange(payload: { startDate: string; endDate: string }) {
 //   return this.http.post<any[]>('http://localhost:3000/get_customer_codes_by_date_range', payload, {headers: this.headerss});
 // }
-
+ getAllCustomersOrders(payload: any) {
+    const url = 'https://visionrx.azurewebsites.net/CSOrderingDashboard/api/CSDashboard/AllCustomersOrders';
+    return this.http.post<any>(url, payload, { headers: this.headers });
+  }
 }

@@ -41,30 +41,31 @@
             ]
           },
           "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "1mb",
-                  "maximumError": "1mb"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            }
-          },
+  "production": {
+    "outputHashing": "all",
+    "baseHref": "/order-status/",
+    "budgets": [
+      {
+        "type": "initial",
+        "maximumWarning": "2mb",
+        "maximumError": "1mb"
+      },
+      {
+        "type": "anyComponentStyle",
+        "maximumWarning": "1mb",
+        "maximumError": "1mb"
+      }
+    ]
+  },
+  "development": {
+    "buildOptimizer": false,
+    "optimization": false,
+    "vendorChunk": true,
+    "extractLicenses": false,
+    "sourceMap": true,
+    "namedChunks": true
+  }
+},
           "defaultConfiguration": "production"
         },
         "serve": {

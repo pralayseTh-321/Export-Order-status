@@ -1,36 +1,97 @@
+<!-- Existing date range + search -->
+<!-- Existing date range + search -->
 <div class="d-flex justify-content-start align-items-end gap-3 mb-4 flex-wrap">
   <!-- 📅 From Date -->
   <div>
     <label class="form-label fw-semibold">From</label>
-    <input
-      type="date"
-      class="form-control"
-      [(ngModel)]="startDate"
-      [max]="today"
-    />
-    <div *ngIf="showFromDateError" class="text-danger small mt-1">
-      From date is required.
-    </div>
+    <input type="date" class="form-control" [(ngModel)]="from_date" [max]="today" />
+    <div *ngIf="showFromDateError" class="text-danger small mt-1">From date is required.</div>
   </div>
 
   <!-- 📅 To Date -->
   <div>
     <label class="form-label fw-semibold">To</label>
-    <input
-      type="date"
-      class="form-control"
-      [(ngModel)]="endDate"
-      [max]="today"
-    />
-    <div *ngIf="showToDateError" class="text-danger small mt-1">
-      To date is required.
-    </div>
+    <input type="date" class="form-control" [(ngModel)]="to_date" [max]="today" />
+    <div *ngIf="showToDateError" class="text-danger small mt-1">To date is required.</div>
   </div>
 
   <!-- 🔍 Search Button -->
   <div>
-    <button class="btn btn-primary mt-4" (click)="searchData()">
+    <button
+      class="btn btn-primary mt-4"
+      (click)="searchData()"
+      [disabled]="userDetails?.userid === 'admin'"
+    >
       Search
     </button>
+  </div>
+</div>
+
+
+<!-- 🔄 Loader -->
+<!-- Full Screen Loader Overlay -->
+<div *ngIf="isLoading" class="loader-overlay">
+  <div class="spinner-border text-light loader-spinner" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+
+<div *ngIf="searchResults.length > 0" class="position-relative mt-3">
+
+
+  <div class="d-flex justify-content-end mb-2">
+    <button class="btn btn-success btn-sm" (click)="downloadCSV()">
+      ⬇️ Download CSV
+    </button>
+  </div>
+
+ 
+  <div class="table-responsive" style="max-height: 450px; overflow-y: auto; border: 1px solid #dee2e6; border-radius: 5px;">
+    <table class="table table-bordered table-hover table-striped mb-0">
+      <thead class="table-light sticky-header">
+        <tr>
+          <th (click)="sortData('cust_code')" class="sortable">
+            Customer Code
+            <span *ngIf="sortColumn === 'cust_code'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th (click)="sortData('order_number')" class="sortable">
+            Order Number
+            <span *ngIf="sortColumn === 'order_number'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th (click)="sortData('entry_date')" class="sortable">
+            Entry Date
+            <span *ngIf="sortColumn === 'entry_date'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th (click)="sortData('oci_no')" class="sortable">
+            OCI Number
+            <span *ngIf="sortColumn === 'oci_no'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+          <th (click)="sortData('status_desc')" class="sortable">
+            Status
+            <span *ngIf="sortColumn === 'status_desc'">
+              {{ sortDirection === 'asc' ? '▲' : '▼' }}
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of searchResults">
+          <td>{{ item.cust_code }}</td>
+          <td>{{ item.order_number }}</td>
+          <td>{{ item.entry_date }}</td>
+          <td>{{ item.oci_no }}</td>
+          <td>{{ item.status_desc }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
