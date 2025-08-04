@@ -9,7 +9,7 @@
 
   <!-- Searchable Dropdown -->
   <div class="position-relative" style="width: 220px;">
-    <label class="form-label fw-semibold">Customer</label>
+    <label class="form-label fw-semibold">Customer Code</label>
    <input type="text" class="form-control" placeholder="Select customer.."
   [(ngModel)]="searchText"
   (input)="onInputChange()"
@@ -59,7 +59,7 @@
   <!-- Order Received -->
   <div class="card bg-success text-white flex-grow-1">
     <div class="card-body d-flex align-items-center">
-      <i class="bi bi-box-seam me-3 fs-3"></i>
+      <i class="fa-solid fa-box-open me-3 fs-3"></i>
       <div class="text-center flex-fill">
         <h6 class="card-subtitle mb-1">Order Received</h6>
         <h4>{{ selectedCustomerData.dispatchCount }}</h4>
@@ -70,7 +70,7 @@
   <!-- Orders Created -->
   <div class="card bg-warning text-dark flex-grow-1">
     <div class="card-body d-flex align-items-center">
-      <i class="bi bi-pencil-square me-3 fs-3"></i>
+      <i class="fa-solid fa-pen-square me-3 fs-3"></i>
       <div class="text-center flex-fill">
         <h6 class="card-subtitle mb-1">Orders Created</h6>
         <h4>{{ selectedCustomerData.pendingCount }}</h4>
@@ -81,7 +81,7 @@
   <!-- Not Reflect -->
   <div class="card bg-danger text-white flex-grow-1" (click)="toggleAccordion()">
     <div class="card-body d-flex align-items-center">
-      <i class="bi bi-exclamation-triangle me-3 fs-3"></i>
+      <i class="fa-solid fa-triangle-exclamation me-3 fs-3"></i>
       <div class="text-center flex-fill">
         <h6 class="card-subtitle mb-1">Not Reflect</h6>
         <h4>
@@ -121,7 +121,7 @@
     <button class="btn btn-sm btn-outline-primary ms-2 me-3"
             (click)="downloadCSV(); $event.stopPropagation()"
             title="Download CSV">
-      <i class="bi bi-filetype-csv"></i>
+      <i class="fa-solid fa-file-csv"></i>
     </button>
   </div>
 </h2>
