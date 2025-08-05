@@ -10,10 +10,8 @@
   <!-- Searchable Dropdown -->
   <div class="position-relative" style="width: 220px;">
     <label class="form-label fw-semibold">Customer Code</label>
-   <input type="text" class="form-control" placeholder="Select customer.."
-  [(ngModel)]="searchText"
-  (input)="onInputChange()"
-  (focus)="isDropdownOpen = true" />
+    <input type="text" class="form-control" placeholder="Select customer.." [(ngModel)]="searchText"
+      (input)="onInputChange()" (focus)="isDropdownOpen = true" />
 
     <div *ngIf="isDropdownOpen && filteredItems.length > 0" class="dropdown-menu show w-100"
       style="max-height: 200px; overflow-y: auto;">
@@ -103,28 +101,25 @@
   <div class="accordion" id="orderAccordion">
     <div class="accordion-item">
       <h2 class="accordion-header bg-light" id="headingOne">
-  <div class="d-flex align-items-center justify-content-between w-100">
-    <!-- Accordion Toggle Button -->
-    <button class="accordion-button collapsed flex-grow-1 d-flex align-items-center gap-2"
-            type="button"
-            (click)="toggleExpandAccordion()"
-            [attr.aria-expanded]="accordionExpanded">
+        <div class="d-flex align-items-center justify-content-between w-100">
+          <!-- Accordion Toggle Button -->
+          <button class="accordion-button collapsed flex-grow-1 d-flex align-items-center gap-2" type="button"
+            (click)="toggleExpandAccordion()" [attr.aria-expanded]="accordionExpanded">
 
-      <!-- Left content -->
-      <span class="fw-bold">Order Status</span>
-      <span *ngIf="sampleOrderData.length > 0" class="badge bg-primary">
-        {{ sampleOrderData.length }}
-      </span>
-    </button>
+            <!-- Left content -->
+            <span class="fw-bold">Order Status</span>
+            <span *ngIf="sampleOrderData.length > 0" class="badge bg-primary">
+              {{ sampleOrderData.length }}
+            </span>
+          </button>
 
-    <!-- Download Icon Button (Beside arrow) -->
-    <button class="btn btn-sm btn-outline-primary ms-2 me-3"
-            (click)="downloadCSV(); $event.stopPropagation()"
+          <!-- Download Icon Button (Beside arrow) -->
+          <button class="btn btn-sm btn-outline-primary ms-2 me-3" (click)="downloadCSV(); $event.stopPropagation()"
             title="Download CSV">
-      <i class="fa-solid fa-file-csv"></i>
-    </button>
-  </div>
-</h2>
+            <i class="fa-solid fa-file-csv"></i>
+          </button>
+        </div>
+      </h2>
 
 
       <div class="accordion-collapse" [ngClass]="{ 'collapse': true, 'show': accordionExpanded }">
@@ -147,7 +142,7 @@
 
                   <th class="sticky-th">Status</th>
                   <th class="sticky-th">Entry Date</th> <!-- New Column -->
-                    <!-- <th class="sticky-th">XML</th> -->
+                  <!-- <th class="sticky-th">XML</th> -->
                 </tr>
               </thead>
 
@@ -160,14 +155,16 @@
                     </span>
                   </td>
                   <td>{{ order.entryDate }}</td> <!-- New Cell -->
-                  <!-- <td class="text-start"> 
+                  <td class="text-start"> 
                     <div class="d-flex align-items-center gap-2">
                       
                       <button class="btn btn-sm btn-outline-primary"
                         (click)="downloadXmlRow(order); $event.stopPropagation()"
                         [disabled]="downloadingXmlRows.has(order.orderNo)" title="Download XML">
                         <ng-container *ngIf="!downloadingXmlRows.has(order.orderNo); else spinning">
-                          <i class="bi bi-filetype-xml"></i>
+                         <i class="fa-solid fa-file-code"></i>
+
+
                         </ng-container>
                         <ng-template #spinning>
                           <div class="spinner-border spinner-border-sm text-secondary" role="status">
@@ -178,7 +175,7 @@
 
                     
                     </div>
-                  </td> -->
+                  </td>
                 </tr>
               </tbody>
             </table>
